@@ -1,77 +1,55 @@
-# rabbitmq-demo
-Demo of RabbitMQ consumer/producer
+# Workshop 1
 
-## Communicate between python processes
+In this workshop we'll get started with containers using docker.
 
-For this exercise, ensure both consumer.py and producer.py use the 'localhost' broker address
+## Pre-requisites
 
-First start the RabbitMQ broker
-```
-docker run --rm -d -p 15672:15672 -p 5672:5672 --name rabbitmq rabbitmq:3-management
-```
+You will need to have installed Docker Desktop :
+https://www.docker.com/products/docker-desktop/
 
-Now run the consumer in one terminal
-```
-python consumer/consumer.py
-```
+## Hello World
 
-And the producer in another
+To check docker is working, run a Hello World container.
+
 ```
-python producer/producer.py
+docker run hello-world
 ```
 
-## Containers example
+## Pull a container image and run it
 
-Now change consumer.py and producer.py to use the 'rabbitmq' broker address, and build both containers
-```
-docker image build -t producer producer/.
-docker image build -t consumer consumer/.
-```
+First, we'll run a pre-built container image that contains an nginx webserver.
 
-Create a network for your containers to communicate
 ```
-docker network create rabbit
+docker run --name my-nginx -d -P nginx
 ```
 
-Start the RabbitMQ broker (this time attaching the 'rabbit' network)
+To get some info about running containers, try 
 ```
-docker run --rm -d -p 15672:15672 -p 5672:5672 --network rabbit --name rabbitmq rabbitmq:3-management
-```
-
-And then your containers - in two separate terminals, so you can run the consumer interactively
-```
-docker run --rm -it --network rabbit --name consumer
-docker run --rm -d --network rabbit --name producer
+docker ps
 ```
 
-## Swarm services example
+You should be able to figure out which host port is mapped to the container port 80, and point a browser at it.
 
-When starting services manually, as here, the broker address will remain 'rabbitmq'.
+Now try running a Jupyter notebook
 
-First start your swarm
-```
-docker swarm init
-```
+## Build a container using a dockerfile
 
-Create the network (overlay this time)
+This tutorial repo includes information to build two containers, 'nginx-static' and 'python-prog'.  Build the ngingx example using :
 ```
-docker network create --driver overlay rabbit
+cd nginx-static
+docker image build -t nginx-static .
 ```
 
-And then start the services
+and run it
 ```
-docker service create -p 15672:15672 -p 5672:5672 --network rabbit --name rabbitmq rabbitmq:3-management
-docker service create --network rabbit --name consumer consumer
-docker service create --network rabbit --name producer producer
+docker run --name nginx-static-1 -P -d nginx-static
 ```
 
-## Docker compose example
+## Build all containers using compopse
 
-The docker-compose.yml file defines three services for the broker, consumer and producer. The startup sequence is controlled by introducing a 'healthcheck' for the rabbitmq service, and delaying start of the consumer and producer until this healthcheck is satisfied.  The consumer and producer are also replicated.
+Have a look in the file 'docker-compose.yml'.  
 
-Note that when running under compose, the service names are modified, so the address used by consumer and producer needs to be modified to 'rabbitmq-demo-rabbitmq-1'.
-
-To start everything simply run :
+Buid and run all the containers using :
 ```
 docker compose up
 ```
