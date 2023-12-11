@@ -1,0 +1,11 @@
+# base on latest python file
+FROM python:latest
+
+# add our python program
+ADD test.py ./
+
+# install dependent libraries
+RUN pip install numpy matplotlib
+
+# the command to run our program
+CMD [ "python", "./test.py"]

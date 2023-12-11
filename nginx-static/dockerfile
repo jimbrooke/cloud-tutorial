@@ -1,0 +1,5 @@
+
+FROM nginx
+COPY html/index.html /usr/share/nginx/html
+COPY html/img/test.png /usr/share/nginx/html/img
+
