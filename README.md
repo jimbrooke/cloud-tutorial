@@ -30,8 +30,6 @@ docker ps
 
 You should be able to figure out which host port is mapped to the container port 80, and point a browser at it.
 
-Now try running a Jupyter notebook
-
 ## Build a container using a dockerfile
 
 This tutorial repo includes information to build two containers, 'nginx-static' and 'python-prog'.  Build the ngingx example using :
@@ -40,10 +38,14 @@ cd nginx-static
 docker image build -t nginx-static .
 ```
 
-and run it
+Look at `nginx-static/dockerfile`. This simple example builds a container based on `nginx`, adding an HTML file and an image to create a static website.
+
+Now run the container :
 ```
 docker run --name nginx-static-1 -P -d nginx-static
 ```
+
+As before, you should be able to point a web browser at the container and view the website.
 
 ## Build all containers using compopse
 
