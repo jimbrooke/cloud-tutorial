@@ -32,7 +32,7 @@ You should be able to figure out which host port is mapped to the container port
 
 ## Build a container using a dockerfile
 
-This tutorial repo includes information to build two containers, 'nginx-static' and 'python-prog'.  Build the ngingx example using :
+This tutorial repo includes information to build two containers, `nginx-static` and `python-prog`.  Build the ngingx example using :
 ```
 cd nginx-static
 docker image build -t nginx-static .
@@ -46,6 +46,19 @@ docker run --name nginx-static-1 -P -d nginx-static
 ```
 
 As before, you should be able to point a web browser at the container and view the website.
+
+## Containerise a Python program
+
+Now build the `python-prog` container :
+```
+cd python-prog
+docker image build -t python-prog .
+```
+
+And try running it :
+```
+docker run --name python-prog-1 -P -d python-prog
+```
 
 ## Build all containers using compopse
 
