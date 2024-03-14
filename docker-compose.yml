@@ -1,0 +1,10 @@
+services:
+  nginx-static:
+    build: nginx-static/.
+    deploy:
+      mode: global
+  python-prog:
+    build: python-prog/.
+    deploy:
+      mode: global
+
