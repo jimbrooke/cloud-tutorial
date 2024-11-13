@@ -1,4 +1,4 @@
-# Workshop 2
+# Workshop 1
 
 In this workshop we'll get started with containers using docker.
 
