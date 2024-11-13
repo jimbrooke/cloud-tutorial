@@ -1,10 +1,41 @@
 services:
-  nginx-static:
-    build: nginx-static/.
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - rabbit
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+  rmq-consumer:
+    build: rmq-consumer/.
+    networks:
+      - rabbit
     deploy:
-      mode: global
-  python-prog:
-    build: python-prog/.
+      mode: replicated
+      replicas: 3
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        restart: true
+  rmq-producer:
+    build: rmq-producer/.
+    networks:
+      - rabbit
     deploy:
-      mode: global
+      mode: replicated
+      replicas: 2
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        restart: true
+
+networks:
+  rabbit:
+    driver: overlay
+    attachable: true
 
