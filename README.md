@@ -62,9 +62,14 @@ docker run --name python-prog-1 -P -d python-prog
 
 ## Build all containers using compopse
 
-Have a look in the file 'docker-compose.yml'.  
+Have a look in the file 'docker-compose.yml' - this is an almost trivial example.
 
-Buid and run all the containers using :
+Build all the container images using :
+```
+docker compose build
+```
+
+and then run them using :
 ```
 docker compose up
 ```
