@@ -1,4 +1,5 @@
-# rabbitmq-demo
+# Workshop 2
+
 Demo of RabbitMQ consumer/producer
 
 ## Communicate between python processes
